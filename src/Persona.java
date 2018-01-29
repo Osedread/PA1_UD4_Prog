@@ -1,80 +1,110 @@
-import java.util.Random;
+import java.util.*;
 
 /*
-Creamos la clase persona  con los atributos:
+Creamos la clase persona con los atributos:
 nombre, edad, DNI, sexo, peso y altura.
-Todos ellos tendran valores por defecto salvo DNI y sexo.
+Todos ellos tendran valores por defecto,
+ salvo DNI y sexo.
 */
-
 public class Persona {
 	
 	// Atributos
-	/*
-	Puesto que el data type Byte abarca de -128 a +128,
-	no es necesario usar 'int' en la variable edad.
-	*/
-	private String nombre;
-	private byte edad;
-	private String DNI;
-	private char sexo = 'H';
+	protected String nombre;
+	private int edad;
+	private String dni;
 	private int peso;
 	private double altura;
 	
+	// Constantes
+	private static char SEXO = 'H';
+	
 	
 	// Constructores
-	
-	public Persona() {}
-	
-	public Persona(String nombre, byte edad, char sexo) {
-		this.nombre = nombre;
-		this.edad = edad;
-		this.sexo = sexo;
+	public Persona() {
+		generarDNI();
 	}
-	
-	public Persona(String nombre, byte edad, String DNI, char sexo, int peso, int altura) {
+	public Persona(
+			String nombre,
+			int edad, 
+			char sexo) {
 		this.nombre = nombre;
 		this.edad = edad;
-		this.DNI = DNI;
-		this.sexo = sexo;
+		Persona.SEXO = sexo;
+		generarDNI();
+	}
+	public Persona(
+			String nombre,
+			int edad,
+			char sexo,
+			int peso,
+			double altura) {
+		this.nombre = nombre;
+		this.edad = edad;
+		Persona.SEXO = sexo;
 		this.peso = peso;
 		this.altura = altura;
+		generarDNI();
 	}
-	
 	
 	// Metodos
-	
-	public int calcularIMC(int peso, double altura) {
-		int result = peso / (int) (Math.pow(altura, 2));
+	public void calcularIMC() {
+		int peso = getPeso();
+		double altura = getAltura();
+		double result = peso / (altura * altura);
 		// Tomado de "https://www.webmd.com/a-to-z-guides/body-mass-index-bmi-for-adults"
 		// A BMI below 18.5 is considered underweight
+		final String BAJO_PESO = "El IMC de " + nombre + 
+				" est\u00e1 por debajo de 18.5, deber\u00eda procurar subir de peso.";
 		// A BMI of 18.5 to 24.9 is considered healthy
+		final String PESO_IDEAL = "El IMC de " + nombre +
+				" se encuentra en un nivel adecuado. Procure mantenerse as\u00ed.";
 		// A BMI of 25 or above is considered overweight
+		final String SOBREPESO = "El IMC de "+ nombre + 
+				" est\u00e1 por encima de 25. Deber\u00eda procurar bajar de peso.";
+		// Recogemos en una cuarta constante, un cuarto caso de valor erroneo
+		final String VALOR_ERRONEO = "Es posible que haya introducido algun valor "
+				+ "err\u00f3neo para  " + nombre +
+				". Por favor, vuelva a intentarlo.";
 		if (result < 18.5) {
-			return -1;
+			System.out.println(BAJO_PESO);
+		} else if (result < 25 && result >= 18.5) {
+			System.out.println(PESO_IDEAL);
 		} else if (result >= 25) {
-			return 1;
+			System.out.println(SOBREPESO);
 		} else {
-			return 0;
-		}	
+			System.out.println(VALOR_ERRONEO);
+		}
 	}
-	
-	public boolean esMayorDeEdad(byte edad) {
+	public void esMayorDeEdad() {
+		int edad = getEdad();
 		// Usando un operador ternario
-		return ( edad >= 18 ) ? true : false;
+		if (edad >=18) {
+			System.out.println(nombre + " es mayor de edad.");
+		} else {
+			System.out.println(nombre + " no es mayor de edad.");
+		}
+		
 	}
-	
+	protected char comprobarSexo(char sexo) {
+		if (sexo != 'H' || sexo != 'M') {
+			SEXO = 'H';
+		} else {
+			SEXO = sexo;
+		}
+		return sexo;
+	}
+	@Override
 	public String toString() {
-		return "PERSONA"
+		return "\nPERSONA"
 				+ "\nNombre: " + nombre
-				+ "\nEdad: " + edad
-				+ "\nDNI: " + DNI
-				+ "\nSexo: " + sexo
-				+ "\nPeso: " + peso
-				+ "\nAltura: " + altura
+				+ "\nEdad: " + edad + " a\u00f1os"
+				+ "\nDNI: " + dni
+				+ "\nSexo: " + SEXO
+				+ "\nPeso: " + peso + " Kg"
+				+ "\nAltura: " + altura + " metros"
 				+ "\n";
 	}
-	
-	private String generarDNI() {
+	private void generarDNI() {
 		// Creamos primero una instancia de clase Random
 		// Previamente hemos importado dicha Libreria
 		Random rand = new Random();
@@ -90,6 +120,43 @@ public class Persona {
 		str.append(numeroAleatorio).append(letra);
 		// Puesto que str es del tipo StringBuilder, la transformamos en String
 		String finalstr = str.toString();
-		return finalstr;
+		dni = finalstr;
+	}
+
+	// Setters
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+	public void setEdad(int edad) {
+		if ( edad < 0 ) Math.abs(edad);
+		this.edad = edad;
+	}
+	public void setSexo(char sexo) {
+		this.SEXO = sexo;
+	}
+	
+	public void setPeso(int peso) {
+		this.peso = peso;
+	}
+	public void setAltura(double altura) {
+		this.altura = altura;
+	}
+	
+	// Getters
+	public String getNombre() {
+		return nombre;
+	}
+	public int getEdad() {
+		return edad;
+	}
+	public char getSexo() {
+		return SEXO;
+	}
+	public int getPeso() {
+		return peso;
+	}
+	public double getAltura() {
+		return altura;
 	}
 }
+
