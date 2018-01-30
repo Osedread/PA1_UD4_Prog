@@ -122,6 +122,16 @@ public class Persona {
 		String finalstr = str.toString();
 		dni = finalstr;
 	}
+	
+	// Para la resolucion del ejercicio2,
+	// vemos que las personas pueden pensar y comer,
+	// asi que agregamos dichos metodos.
+	public void pensar() {
+		System.out.println("La persona esta pensando...");
+	}
+	public void comer() {
+		System.out.println("La persona empieza a comer...");
+	}
 
 	// Setters
 	public void setNombre(String nombre) {

@@ -45,5 +45,19 @@ public class MainClass {
 		System.out.println(persona1.toString());
 		System.out.println(persona2.toString());
 		System.out.println(persona3.toString());
+		
+		// Parte del ejercicio2 en MainClass.java
+		// Creamos un objeto Sith y uno Jedi
+		// Asimismo, se suceden una serie de eventos
+		Sith maul = new Sith();
+		maul.setNombre("Maul");
+		Jedi kenobi = new Jedi();
+		kenobi.setNombre("ObiJuanKenobi");
+		// Empiezan los eventos
+		kenobi.sentirLaFuerza();
+		maul.estrangularConLaFuerza();
+		maul.rayoDeLaFuerza();
+		kenobi.moverRoca();
+		maul.cancelarHipoteca();
 	}
 }
